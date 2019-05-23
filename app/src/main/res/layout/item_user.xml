@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageView
+            android:id="@+id/imgv_avatar"
+            android:layout_width="@dimen/user_avatar_size"
+            android:layout_height="@dimen/user_avatar_size"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_gravity="center_vertical"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"/>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/tv_reputation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <ImageView
+                    android:id="@+id/imgv_star"
+                    android:layout_width="@dimen/reputation_icon_size"
+                    android:layout_height="@dimen/reputation_icon_size"
+                    android:layout_marginStart="@dimen/reputation_margin"
+                    android:layout_toEndOf="@id/tv_reputation"
+                    android:src="@drawable/ic_star"/>
+
+        </RelativeLayout>
+
+        <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/tv_last_access_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>
