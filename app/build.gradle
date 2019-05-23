@@ -14,7 +14,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.hing.stackoverflowuser.StackOverFlowInstrumentationTestRunner"
 
         buildConfigField "String", "BASE_URL", '"https://api.stackexchange.com"'
     }
@@ -31,6 +31,8 @@ ext{
     lifecycleExtensionsVersion = "2.0.0"
     retrofitVersion = "2.5.0"
     glideVersion = "4.9.0"
+    mockitoVersion = "2.27.0"
+    espressoVersion = "3.1.1"
 }
 
 dependencies {
@@ -60,9 +62,19 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation 'com.nhaarman:mockito-kotlin:1.6.0'
+    testImplementation 'com.jraska.livedata:testing-ktx:1.1.0'
+    testImplementation 'androidx.arch.core:core-testing:2.0.1'
 
     androidTestImplementation 'androidx.test:core:1.1.0'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
+    androidTestImplementation "org.mockito:mockito-android:$mockitoVersion"
+    androidTestImplementation 'com.nhaarman:mockito-kotlin:1.6.0'
 }
