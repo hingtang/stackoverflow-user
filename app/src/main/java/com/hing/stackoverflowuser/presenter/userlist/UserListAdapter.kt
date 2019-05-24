@@ -1,6 +1,7 @@
 package com.hing.stackoverflowuser.presenter.userlist
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.hing.stackoverflowuser.R
 import com.hing.stackoverflowuser.data.User
 import com.hing.stackoverflowuser.utils.DateTimeHelper
+import com.hing.stackoverflowuser.utils.setCustomImage
 import com.hing.stackoverflowuser.utils.setVisible
 
 
@@ -20,6 +22,7 @@ import com.hing.stackoverflowuser.utils.setVisible
  */
 class UserListAdapter(
     private val onItemClick: (userId: Int) -> Unit,
+    private val onBookmarkClick: (user: User) -> Unit,
     private val dateTimeHelper: DateTimeHelper
 ) : RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
     private val userList: MutableList<User> = mutableListOf()
@@ -38,11 +41,15 @@ class UserListAdapter(
     }
 
     fun updateUserList(users: List<User>) {
-        if (userList.containsAll(users)) {
-            userList.clear()
-        }
+        userList.clear()
         userList.addAll(users)
         notifyDataSetChanged()
+    }
+
+    fun insertUserList(users: List<User>) {
+        userList.addAll(users)
+        Log.e("Hing", "startIndex: ${userList.size - users.size} - currentSize: ${userList.size} - size: ${users.size}")
+        notifyItemRangeInserted(userList.size - users.size, users.size)
     }
 
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -51,9 +58,15 @@ class UserListAdapter(
         private val reputationText = lazy { itemView.findViewById<TextView>(R.id.tv_reputation) }
         private val locationText = lazy { itemView.findViewById<TextView>(R.id.tv_location) }
         private val lastAccessDateText = lazy { itemView.findViewById<TextView>(R.id.tv_last_access_date) }
+        private val bookmarkImage = lazy { itemView.findViewById<ImageView>(R.id.bookmark) }
 
         init {
             itemView.setOnClickListener { onItemClick(userList[adapterPosition].id) }
+            bookmarkImage.value.setOnClickListener {
+                val user = userList[adapterPosition].apply { isBookmark = !isBookmark }
+                bookmarkImage.value.setCustomImage(user.isBookmark, R.drawable.ic_star, R.drawable.ic_un_star)
+                onBookmarkClick(user)
+            }
         }
 
         @SuppressLint("SetTextI18n")
@@ -68,6 +81,7 @@ class UserListAdapter(
             reputationText.value.text = "${user.reputation}"
             locationText.value.text = user.location
             lastAccessDateText.value.text = dateTimeHelper.getDateString(user.lastAccessDate)
+            bookmarkImage.value.setCustomImage(user.isBookmark, R.drawable.ic_star, R.drawable.ic_un_star)
 
             locationText.value.setVisible(!user.location.isNullOrEmpty())
         }

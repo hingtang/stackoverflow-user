@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="ReputationText" parent="@android:style/Widget.TextView">
         <item name="android:textSize">@dimen/reputation_change_text_size</item>
         <item name="android:textStyle">bold</item>
