@@ -1,6 +1,7 @@
 package com.hing.stackoverflowuser.presenter.userreputation
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -27,34 +28,33 @@ class UserReputationActivity : AppCompatActivity() {
 
     private lateinit var userReputationAdapter: UserReputationAdapter
     private var userId: Int = 0
-    private var firstVisibleItemPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
         setContentView(R.layout.activity_user_reputation)
 
-        firstVisibleItemPosition = savedInstanceState?.getInt(SAVE_POSITION, 0) ?: 0
-
         userId = intent?.extras?.getInt(EXTRA_USER_ID) ?: 0
+        setupToolbar()
         initData()
         initRecyclerView()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(
-            SAVE_POSITION,
-            (userReputationList.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-        )
-    }
-
     override fun onStart() {
         super.onStart()
-
         if (!networkHelper.isConnectedToInternet()) {
             userReputationList.showSnackbar(getString(R.string.no_internet_connection) ?: "")
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item?.let {
+            if (it.itemId == android.R.id.home) {
+                this.finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initData() {
@@ -92,12 +92,15 @@ class UserReputationActivity : AppCompatActivity() {
                     userReputationViewModel.getUserReputation(userId, currentPage, PER_PAGE_ITEM, SITE)
                 }
             })
-            userReputationViewModel.userReputation.value?.let {
-                if (firstVisibleItemPosition < it.size) {
-                    scrollToPosition(firstVisibleItemPosition)
-                }
-            }
             addItemDecoration(dividerItemDecoration)
+        }
+    }
+
+    private fun setupToolbar(){
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setHomeButtonEnabled(true)
+            it.title = getString(R.string.user_reputation_title)
         }
     }
 
@@ -105,7 +108,6 @@ class UserReputationActivity : AppCompatActivity() {
         private const val VISIBLE_THRESHOLD = 10
         private const val PER_PAGE_ITEM = 30
         private const val SITE = "stackoverflow"
-        private const val SAVE_POSITION = "SAVE_POSITION"
 
         const val EXTRA_USER_ID = "USER_ID"
     }
