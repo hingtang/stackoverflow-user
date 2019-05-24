@@ -1,17 +1,24 @@
 package com.hing.stackoverflowuser.presenter.userlist
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hing.stackoverflowuser.R
 import com.hing.stackoverflowuser.listeners.OnLoadMoreListener
 import com.hing.stackoverflowuser.navigators.UserItemNavigator
-import com.hing.stackoverflowuser.utils.*
+import com.hing.stackoverflowuser.presenter.userreputation.UserReputationActivity
+import com.hing.stackoverflowuser.presenter.userreputation.UserReputationActivity.Companion.EXTRA_USER_ID
+import com.hing.stackoverflowuser.utils.DateTimeHelper
+import com.hing.stackoverflowuser.utils.NetworkHelper
+import com.hing.stackoverflowuser.utils.showSnackbar
+import com.hing.stackoverflowuser.utils.showToast
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 import kotlinx.android.synthetic.main.fragment_user_list.progress_bar as progressBar
@@ -63,8 +70,10 @@ class UserListFragment : Fragment(), UserItemNavigator {
         }
     }
 
-    override fun openUserDetail(username: String) {
-
+    override fun openUserDetail(userId: Int) {
+        activity?.startActivity(Intent(activity, UserReputationActivity::class.java).apply {
+            putExtra(EXTRA_USER_ID, userId)
+        })
     }
 
     private fun initData() {
@@ -86,8 +95,9 @@ class UserListFragment : Fragment(), UserItemNavigator {
     }
 
     private fun initRecyclerView() {
-        userListAdapter = UserListAdapter({ username: String -> openUserDetail(username) }, dateTimeHelper)
+        userListAdapter = UserListAdapter({ userId: Int -> openUserDetail(userId) }, dateTimeHelper)
         val linearLayoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
+        val dividerItemDecoration = DividerItemDecoration(this.context, linearLayoutManager.orientation)
 
         with(userListRecyclerView) {
             adapter = userListAdapter
@@ -105,6 +115,7 @@ class UserListFragment : Fragment(), UserItemNavigator {
                     scrollToPosition(firstVisibleItemPosition)
                 }
             }
+            addItemDecoration(dividerItemDecoration)
         }
     }
 
