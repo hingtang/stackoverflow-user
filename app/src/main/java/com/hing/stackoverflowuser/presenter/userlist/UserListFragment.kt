@@ -137,12 +137,6 @@ class UserListFragment : Fragment(), UserItemNavigator, AdapterView.OnItemSelect
 
     private fun initSpinnerMenu() {
         spinnerMenu.onItemSelectedListener = this
-        @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-        ArrayAdapter.createFromResource(this.context, R.array.user_list_menu, android.R.layout.simple_spinner_item)
-            .also { adapter ->
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                spinnerMenu.adapter = adapter
-            }
     }
 
     private fun setupToolbar() {
