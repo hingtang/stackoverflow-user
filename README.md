@@ -13,6 +13,8 @@ This project built with Kotlin, MVVM, Android Architecture Component, Clean Arch
 - RxAndroid : to subscribe the API calls
 - Dagger 2 : to use the Dependency Injection Framework
 - LiveData : to observe the data
+- ROOM : to store the data
+
 I also use mockito, espresso for testing. 
 
 ## Other comments:
