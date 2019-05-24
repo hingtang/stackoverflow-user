@@ -45,7 +45,6 @@ class UserListFragment : Fragment(), UserItemNavigator, AdapterView.OnItemSelect
     lateinit var dateTimeHelper: DateTimeHelper
 
     private lateinit var userListAdapter: UserListAdapter
-    private var firstVisibleItemPosition = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         AndroidSupportInjection.inject(this)
@@ -58,19 +57,6 @@ class UserListFragment : Fragment(), UserItemNavigator, AdapterView.OnItemSelect
         initSpinnerMenu()
         initRecyclerView()
         initData()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(
-            SAVE_POSITION,
-            (userListRecyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-        )
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        firstVisibleItemPosition = savedInstanceState?.getInt(SAVE_POSITION, 0) ?: 0
     }
 
     override fun onStart() {
@@ -145,11 +131,6 @@ class UserListFragment : Fragment(), UserItemNavigator, AdapterView.OnItemSelect
                     )
                 }
             })
-            userListViewModel.userList.value?.let {
-                if (firstVisibleItemPosition < it.size) {
-                    scrollToPosition(firstVisibleItemPosition)
-                }
-            }
             addItemDecoration(dividerItemDecoration)
         }
     }
@@ -177,6 +158,5 @@ class UserListFragment : Fragment(), UserItemNavigator, AdapterView.OnItemSelect
         const val VISIBLE_THRESHOLD = 10
         const val PER_PAGE_ITEM = 30
         const val SITE = "stackoverflow"
-        const val SAVE_POSITION = "SAVE_POSITION"
     }
 }

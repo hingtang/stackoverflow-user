@@ -61,11 +61,11 @@ class UserListViewModelImpl @Inject constructor(
             .map { userList ->
                 userList.filter { user -> user.isBookmark }
             }
+            .subscribeOn(ioScheduler)
+            .observeOn(mainScheduler)
             .doOnSubscribe {
                 isLoading.value = true
             }
-            .subscribeOn(ioScheduler)
-            .observeOn(mainScheduler)
             .subscribe({
                 currentPage = 0
                 userList.value = it
