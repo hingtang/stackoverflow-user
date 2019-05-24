@@ -15,7 +15,8 @@
             android:theme="@style/AppTheme">
         <activity android:name=".presenter.userreputation.UserReputationActivity">
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>

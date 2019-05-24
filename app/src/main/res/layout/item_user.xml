@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -10,14 +10,26 @@
             android:layout_width="@dimen/user_avatar_size"
             android:layout_height="@dimen/user_avatar_size"
             android:layout_margin="@dimen/default_margin"
-            android:layout_gravity="center_vertical"/>
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"/>
+
+    <ImageView
+            android:id="@+id/bookmark"
+            android:layout_width="@dimen/bookmark_size"
+            android:layout_height="@dimen/bookmark_size"
+            android:src="@drawable/ic_un_star"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/default_margin"/>
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/default_margin"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_toStartOf="@id/bookmark"
+            android:layout_toEndOf="@id/imgv_avatar"
+            android:layout_centerVertical="true">
 
         <TextView
                 android:id="@+id/tv_username"
@@ -56,4 +68,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

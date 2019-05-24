@@ -1,9 +1,6 @@
 package com.hing.stackoverflowuser.di
 
-import com.hing.stackoverflowuser.domain.GetUserListUseCase
-import com.hing.stackoverflowuser.domain.GetUserListUseCaseImpl
-import com.hing.stackoverflowuser.domain.GetUserReputationUseCase
-import com.hing.stackoverflowuser.domain.GetUserReputationUseCaseImpl
+import com.hing.stackoverflowuser.domain.*
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
@@ -20,4 +17,12 @@ interface DomainModule {
     @Binds
     @Singleton
     fun getUserReputationUseCase(getUserReputationUseCase: GetUserReputationUseCaseImpl): GetUserReputationUseCase
+
+    @Binds
+    @Singleton
+    fun bookmarUserUseCase(bookmarkedUserUseCase: BookmarkUserUseCaseImpl): BookmarkUserUseCase
+
+    @Binds
+    @Singleton
+    fun loadBookmarkedUserUseCase(loadBookmarkedUserUseCase: LoadBookmarkedUserUseCaseImpl): LoadBookmarkedUserUseCase
 }

@@ -1,11 +1,15 @@
 package com.hing.stackoverflowuser.data
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 /**
  * Created by HingTang on 2019-05-23.
  */
+@Entity
 data class User(
+    @PrimaryKey
     @SerializedName("account_id")
     val id: Int,
 
@@ -19,5 +23,6 @@ data class User(
     val lastAccessDate: Long,
 
     val reputation: Int,
-    val location: String = ""
+    val location: String = "",
+    var isBookmark: Boolean = false
 )
