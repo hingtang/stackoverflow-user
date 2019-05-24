@@ -1,6 +1,7 @@
 package com.hing.stackoverflowuser.presenter.userreputation
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -34,6 +35,7 @@ class UserReputationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_user_reputation)
 
         userId = intent?.extras?.getInt(EXTRA_USER_ID) ?: 0
+        setupToolbar()
         initData()
         initRecyclerView()
     }
@@ -43,6 +45,16 @@ class UserReputationActivity : AppCompatActivity() {
         if (!networkHelper.isConnectedToInternet()) {
             userReputationList.showSnackbar(getString(R.string.no_internet_connection) ?: "")
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        item?.let {
+            if (it.itemId == android.R.id.home) {
+                this.finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initData() {
@@ -81,6 +93,14 @@ class UserReputationActivity : AppCompatActivity() {
                 }
             })
             addItemDecoration(dividerItemDecoration)
+        }
+    }
+
+    private fun setupToolbar(){
+        supportActionBar?.let {
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setHomeButtonEnabled(true)
+            it.title = getString(R.string.user_reputation_title)
         }
     }
 
