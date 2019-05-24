@@ -1,5 +1,6 @@
 package com.hing.stackoverflowuser.presenter.userlist
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.hing.stackoverflowuser.data.User
 import com.hing.stackoverflowuser.data.UserItems
@@ -19,7 +20,7 @@ import javax.inject.Inject
  * Created by HingTang on 2019-05-23.
  */
 abstract class UserListViewModel : BaseViewModel() {
-    abstract val userList: MutableLiveData<List<User>>
+    abstract val userList: LiveData<List<User>>
 
     abstract fun loadUserList(
         page: Int,
