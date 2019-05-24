@@ -1,11 +1,14 @@
 package com.hing.stackoverflowuser.presenter.userlist
 
 import androidx.lifecycle.MutableLiveData
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.Espresso.onData
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.*
 import com.hing.githubuserlist.customaction.recyclerViewItemCount
 import com.hing.githubuserlist.customaction.recyclerViewWithId
 import com.hing.stackoverflowuser.R
@@ -13,15 +16,19 @@ import com.hing.stackoverflowuser.data.User
 import com.hing.stackoverflowuser.rules.InjectedFragmentTestRule
 import com.hing.stackoverflowuser.utils.DateTimeHelper
 import com.hing.stackoverflowuser.utils.NetworkHelper
+import com.hing.stackoverflowuser.utils.waitUntil
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers
+import org.mockito.ArgumentMatchers.*
+import java.util.concurrent.Callable
 
 /**
  * Created by HingTang on 2019-05-23.
@@ -63,7 +70,12 @@ class UserListFragmentTest {
 
         screen.start()
 
-        screen.verifyShowNoInternetConnectionMessage()
+        waitUntil("finished update no internet status", Callable {
+            screen.verifyShowNoInternetConnectionMessage()
+            screen.verifySpinnerBookmarkSelected()
+            verify(userListViewModel).loadBookmarkList()
+            true
+        }, 20000)
     }
 
     @Test
@@ -72,7 +84,11 @@ class UserListFragmentTest {
 
         screen.start()
 
-        screen.verifyNotShowNoInternetConnectionMessage()
+        waitUntil("finished update internet status", Callable {
+            screen.verifyNotShowNoInternetConnectionMessage()
+            screen.verifySpinnerAllSelected()
+            true
+        }, 20000)
     }
 
     @Test
@@ -95,10 +111,10 @@ class UserListFragmentTest {
 
     @Test
     fun should_show_error_message_when_it_got_error_message() {
-        errorMessage.postValue(error)
+        errorMessage.postValue(ERROR_MESSAGE)
 
         screen.start()
-        screen.verifyShowErrorMessage(error)
+        screen.verifyShowErrorMessage(ERROR_MESSAGE)
     }
 
     @Test
@@ -109,10 +125,25 @@ class UserListFragmentTest {
 
         //load 2: 1 for first start, second for load more
         verify(userListViewModel, times(2)).loadUserList(
-            ArgumentMatchers.anyInt(),
-            ArgumentMatchers.anyInt(),
-            ArgumentMatchers.anyString()
+            anyInt(), anyInt(), anyString(), anyBoolean()
         )
+    }
+
+    @Test
+    fun should_trigger_load_bookmarked_user_when_bookmarked_spinner_selected() {
+        screen.start()
+        screen.spinnerBookmarkedSelected()
+
+        verify(userListViewModel).loadBookmarkList()
+    }
+
+    @Test
+    fun should_trigger_load_user_list_when_all_spinner_selected() {
+        screen.start()
+        screen.spinnerAllSelected()
+
+        //load 2: 1 for first start, second for select spinner
+        verify(userListViewModel, times(2)).loadUserList(eq(1), anyInt(), anyString(), eq(false))
     }
 
     inner class UserListScreen {
@@ -121,41 +152,56 @@ class UserListFragmentTest {
         }
 
         fun verifyShowNoInternetConnectionMessage() {
-            Espresso.onView(ViewMatchers.withText(R.string.no_internet_connection))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            onView(withText(R.string.no_internet_connection)).check(matches(isDisplayed()))
         }
 
         fun verifyNotShowNoInternetConnectionMessage() {
-            Espresso.onView(ViewMatchers.withText(R.string.no_internet_connection)).check(ViewAssertions.doesNotExist())
+            onView(withText(R.string.no_internet_connection)).check(doesNotExist())
         }
 
         fun verifyShowProgressBar() {
-            Espresso.onView(ViewMatchers.withId(R.id.progress_bar))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+            onView(withId(R.id.progress_bar)).check(matches(isDisplayed()))
         }
 
         fun verifyHideProgressBar() {
-            Espresso.onView(ViewMatchers.withId(R.id.progress_bar))
-                .check(ViewAssertions.matches(CoreMatchers.not(ViewMatchers.isDisplayed())))
+            onView(withId(R.id.progress_bar)).check(matches(CoreMatchers.not(isDisplayed())))
         }
 
         fun verifyShowCorrectUserListDataSize() {
-            Espresso.onView(recyclerViewWithId(R.id.user_list))
+            onView(recyclerViewWithId(R.id.user_list))
                 .check(recyclerViewItemCount(userListData.size))
         }
 
         fun verifyShowErrorMessage(error: String) {
-            Espresso.onView(ViewMatchers.withText(error))
+            onView(withText(error))
                 .inRoot(RootMatchers.withDecorView(CoreMatchers.not(rule.activity.window.decorView)))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+                .check(matches(isDisplayed()))
+        }
+
+        fun verifySpinnerBookmarkSelected() {
+            onView(withId(R.id.spinner_menu)).check(matches(withSpinnerText(containsString(BOOKMARKED_SPINNER_TEXT))))
+        }
+
+        fun verifySpinnerAllSelected() {
+            onView(withId(R.id.spinner_menu)).check(matches(withSpinnerText(containsString(ALL_SPINNER_TEXT))))
         }
 
         fun scrollListToEnd() {
-            Espresso.onView(ViewMatchers.withId(R.id.user_list)).perform(
+            onView(withId(R.id.user_list)).perform(
                 RecyclerViewActions.scrollToPosition<UserListAdapter.UserViewHolder>(
                     userListData.size - 3
                 )
             )
+        }
+
+        fun spinnerBookmarkedSelected() {
+            onView(withId(R.id.spinner_menu)).perform(click())
+            onData(allOf(`is`(instanceOf(String::class.java)), `is`(BOOKMARKED_SPINNER_TEXT))).perform(click())
+        }
+
+        fun spinnerAllSelected() {
+            onView(withId(R.id.spinner_menu)).perform(click())
+            onData(allOf(`is`(instanceOf(String::class.java)), `is`(ALL_SPINNER_TEXT))).perform(click())
         }
     }
 
@@ -168,6 +214,8 @@ class UserListFragmentTest {
     private companion object {
         val userListData: MutableList<User> = mutableListOf()
 
-        const val error = "ERROR_MESSAGE"
+        const val ERROR_MESSAGE = "ERROR_MESSAGE"
+        const val BOOKMARKED_SPINNER_TEXT = "Bookmarked"
+        const val ALL_SPINNER_TEXT = "All"
     }
 }
