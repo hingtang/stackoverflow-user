@@ -9,7 +9,7 @@ import dagger.android.HasActivityInjector
  * Created by HingTang on 2019-05-23.
  */
 class AppTest : Application(), HasActivityInjector {
-    val activityInjector = AndroidInjector<Activity> {
+    var activityInjector = AndroidInjector<Activity> {
         //Do nothing
     }
 

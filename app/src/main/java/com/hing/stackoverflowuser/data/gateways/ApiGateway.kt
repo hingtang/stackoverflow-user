@@ -2,6 +2,7 @@ package com.hing.stackoverflowuser.data.gateways
 
 import com.hing.stackoverflowuser.data.StackOverFlowApi
 import com.hing.stackoverflowuser.data.UserItems
+import com.hing.stackoverflowuser.data.UserReputationItems
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -10,6 +11,7 @@ import javax.inject.Inject
  */
 interface ApiGateway {
     fun getUserList(page: Int, pageSize: Int, site: String): Single<UserItems>
+    fun getUserReputation(userId: Int, page: Int, pageSize: Int, site: String): Single<UserReputationItems>
 }
 
 class ApiGatewayImpl @Inject constructor(
@@ -17,5 +19,9 @@ class ApiGatewayImpl @Inject constructor(
 ) : ApiGateway {
     override fun getUserList(page: Int, pageSize: Int, site: String): Single<UserItems> {
         return stackOverFlowApi.getUseList(page, pageSize, site).firstOrError()
+    }
+
+    override fun getUserReputation(userId: Int, page: Int, pageSize: Int, site: String): Single<UserReputationItems> {
+        return stackOverFlowApi.getUserReputation(userId, page, pageSize, site).firstOrError()
     }
 }

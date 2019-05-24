@@ -8,4 +8,17 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ReputationText" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/reputation_change_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="UpPointText" parent="ReputationText">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="DownPointText" parent="ReputationText">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
 </resources>

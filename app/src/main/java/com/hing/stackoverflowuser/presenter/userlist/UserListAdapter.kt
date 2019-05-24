@@ -19,7 +19,7 @@ import com.hing.stackoverflowuser.utils.setVisible
  * Created by HingTang on 2019-05-23.
  */
 class UserListAdapter(
-    private val onItemClick: (username: String) -> Unit,
+    private val onItemClick: (userId: Int) -> Unit,
     private val dateTimeHelper: DateTimeHelper
 ) : RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
     private val userList: MutableList<User> = mutableListOf()
@@ -53,7 +53,7 @@ class UserListAdapter(
         private val lastAccessDateText = lazy { itemView.findViewById<TextView>(R.id.tv_last_access_date) }
 
         init {
-            itemView.setOnClickListener { onItemClick(userList[adapterPosition].username) }
+            itemView.setOnClickListener { onItemClick(userList[adapterPosition].id) }
         }
 
         @SuppressLint("SetTextI18n")
