@@ -1,7 +1,5 @@
 # StackOverFlow User List
-Fossil Android home test - StackOverFlow User
-
-Show user list in pagination and user detail via the Github API: [User List API](https://api.stackexchange.com/2.2/users?page=1&pagesize=30&site=stackoverflow)
+Show user list in pagination and user detail via the StackOverFlow API: [User List API](https://api.stackexchange.com/2.2/users?page=1&pagesize=30&site=stackoverflow) & user reputationlist [User Reputation API](https://api.stackexchange.com/2.2/users/11683/reputation-history?page=1&pagesize=30&site=stackoverflow)
 
 ## What is this?
 Fossil Android home test
