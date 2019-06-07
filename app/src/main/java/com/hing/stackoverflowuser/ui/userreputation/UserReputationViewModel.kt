@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userreputation
+package com.hing.stackoverflowuser.ui.userreputation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import com.hing.stackoverflowuser.data.UserReputation
 import com.hing.stackoverflowuser.di.IOScheduler
 import com.hing.stackoverflowuser.di.MainScheduler
 import com.hing.stackoverflowuser.domain.GetUserReputationUseCase
-import com.hing.stackoverflowuser.presenter.base.BaseViewModel
+import com.hing.stackoverflowuser.ui.base.BaseViewModel
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

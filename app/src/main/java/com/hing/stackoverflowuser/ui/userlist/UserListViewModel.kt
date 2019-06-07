@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userlist
+package com.hing.stackoverflowuser.ui.userlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,7 @@ import com.hing.stackoverflowuser.di.MainScheduler
 import com.hing.stackoverflowuser.domain.BookmarkUserUseCase
 import com.hing.stackoverflowuser.domain.GetUserListUseCase
 import com.hing.stackoverflowuser.domain.LoadBookmarkedUserUseCase
-import com.hing.stackoverflowuser.presenter.base.BaseViewModel
+import com.hing.stackoverflowuser.ui.base.BaseViewModel
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable

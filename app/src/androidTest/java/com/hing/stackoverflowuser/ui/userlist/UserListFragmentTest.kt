@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userlist
+package com.hing.stackoverflowuser.ui.userlist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onData
@@ -26,7 +26,6 @@ import org.hamcrest.CoreMatchers.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.*
 import java.util.concurrent.Callable
 

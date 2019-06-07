@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userreputation
+package com.hing.stackoverflowuser.ui.userreputation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.hing.stackoverflowuser.data.UserReputation

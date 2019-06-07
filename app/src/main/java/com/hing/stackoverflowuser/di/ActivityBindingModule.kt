@@ -2,7 +2,7 @@ package com.hing.stackoverflowuser.di
 
 import com.hing.stackoverflowuser.MainActivity
 import com.hing.stackoverflowuser.di.scope.ActivityScope
-import com.hing.stackoverflowuser.presenter.userreputation.UserReputationActivity
+import com.hing.stackoverflowuser.ui.userreputation.UserReputationActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userreputation
+package com.hing.stackoverflowuser.ui.userreputation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView

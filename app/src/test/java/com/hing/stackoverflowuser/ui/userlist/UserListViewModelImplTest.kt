@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userlist
+package com.hing.stackoverflowuser.ui.userlist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.hing.stackoverflowuser.data.User

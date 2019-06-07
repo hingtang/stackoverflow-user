@@ -1,7 +1,7 @@
 package com.hing.stackoverflowuser.di
 
 import com.hing.stackoverflowuser.di.scope.FragmentScope
-import com.hing.stackoverflowuser.presenter.userlist.UserListFragment
+import com.hing.stackoverflowuser.ui.userlist.UserListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

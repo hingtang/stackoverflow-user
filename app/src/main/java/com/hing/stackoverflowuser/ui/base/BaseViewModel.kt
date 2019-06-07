@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.base
+package com.hing.stackoverflowuser.ui.base
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
