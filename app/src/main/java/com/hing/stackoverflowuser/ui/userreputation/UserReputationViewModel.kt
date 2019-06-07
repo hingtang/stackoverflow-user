@@ -14,23 +14,19 @@ import javax.inject.Inject
 /**
  * Created by HingTang on 2019-05-23.
  */
-abstract class UserReputationViewModel : BaseViewModel() {
-    abstract val userReputation: LiveData<List<UserReputation>>
-
-    abstract fun getUserReputation(userId: Int, page: Int, pageSize: Int = 20, site: String = "stackoverflow")
-}
-
-class UserReputationViewModelImpl @Inject constructor(
+class UserReputationViewModel @Inject constructor(
     private val getUserReputationUseCase: GetUserReputationUseCase,
     @MainScheduler private val mainScheduler: Scheduler,
     @IOScheduler private val ioScheduler: Scheduler
-) : UserReputationViewModel() {
+) : BaseViewModel() {
     override val disposables = CompositeDisposable()
     override val errorMessage = MutableLiveData<String>()
     override val isLoading = MutableLiveData<Boolean>()
-    override val userReputation = MutableLiveData<List<UserReputation>>()
+    private val _userReputation = MutableLiveData<List<UserReputation>>()
+    val userReputation: LiveData<List<UserReputation>>
+        get() = _userReputation
 
-    override fun getUserReputation(userId: Int, page: Int, pageSize: Int, site: String) {
+    fun getUserReputation(userId: Int, page: Int, pageSize: Int, site: String) {
         getUserReputationUseCase.execute(userId, page, pageSize, site)
             .subscribeOn(ioScheduler)
             .observeOn(mainScheduler)
@@ -38,7 +34,7 @@ class UserReputationViewModelImpl @Inject constructor(
                 isLoading.value = page == 1
             }
             .subscribe({
-                userReputation.value = it.items
+                _userReputation.value = it.items
                 isLoading.value = false
             }, {
                 errorMessage.value = "${it.message}"

@@ -2,7 +2,6 @@ package com.hing.stackoverflowuser.di
 
 import androidx.lifecycle.ViewModel
 import com.hing.stackoverflowuser.ui.userlist.UserListViewModel
-import com.hing.stackoverflowuser.ui.userlist.UserListViewModelImpl
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -15,5 +14,5 @@ interface UserListFragmentModule {
     @Binds
     @IntoMap
     @ViewModelKey(UserListViewModel::class)
-    fun userListViewModel(userListViewModel: UserListViewModelImpl): ViewModel
+    fun userListViewModel(userListViewModel: UserListViewModel): ViewModel
 }
