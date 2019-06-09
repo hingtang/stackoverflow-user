@@ -9,6 +9,7 @@ import com.hing.stackoverflowuser.di.MainScheduler
 import com.hing.stackoverflowuser.domain.BookmarkUserUseCase
 import com.hing.stackoverflowuser.domain.GetUserListUseCase
 import com.hing.stackoverflowuser.domain.LoadBookmarkedUserUseCase
+import com.hing.stackoverflowuser.testing.OpenForTesting
 import com.hing.stackoverflowuser.ui.base.BaseViewModel
 import io.reactivex.Scheduler
 import io.reactivex.Single
@@ -19,6 +20,7 @@ import javax.inject.Inject
 /**
  * Created by HingTang on 2019-05-23.
  */
+@OpenForTesting
 class UserListViewModel @Inject constructor(
     private val getUserListUseCase: GetUserListUseCase,
     private val loadBookmarkedUserUseCase: LoadBookmarkedUserUseCase,

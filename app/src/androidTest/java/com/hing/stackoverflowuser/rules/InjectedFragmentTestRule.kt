@@ -3,7 +3,7 @@ package com.hing.stackoverflowuser.rules
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import androidx.test.espresso.intent.rule.IntentsTestRule
-import com.hing.stackoverflowuser.TestHelperActivity
+import com.hing.stackoverflowuser.testing.TestHelperActivity
 import dagger.android.AndroidInjector
 
 /**

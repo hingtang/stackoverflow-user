@@ -19,7 +19,7 @@ import org.junit.Test
 /**
  * Created by HingTang on 2019-05-24.
  */
-class UserReputationViewModelImplTest {
+class UserReputationViewModelTest {
 
     private lateinit var getUserReputationUseCase: GetUserReputationUseCase
     private lateinit var viewModel: UserReputationViewModel
@@ -30,7 +30,7 @@ class UserReputationViewModelImplTest {
     @Before
     fun setUp() {
         getUserReputationUseCase = mock()
-        viewModel = UserReputationViewModelImpl(
+        viewModel = UserReputationViewModel(
             getUserReputationUseCase,
             Schedulers.trampoline(),
             Schedulers.trampoline()

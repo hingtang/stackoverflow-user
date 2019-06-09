@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser
+package com.hing.stackoverflowuser.testing
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
