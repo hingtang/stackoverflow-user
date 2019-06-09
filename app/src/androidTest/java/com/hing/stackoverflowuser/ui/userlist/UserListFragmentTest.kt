@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userlist
+package com.hing.stackoverflowuser.ui.userlist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onData
@@ -16,17 +16,16 @@ import com.hing.stackoverflowuser.data.User
 import com.hing.stackoverflowuser.rules.InjectedFragmentTestRule
 import com.hing.stackoverflowuser.utils.DateTimeHelper
 import com.hing.stackoverflowuser.utils.NetworkHelper
+import com.hing.stackoverflowuser.utils.ViewModelUtil
 import com.hing.stackoverflowuser.utils.waitUntil
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.ArgumentMatchers
 import org.mockito.ArgumentMatchers.*
 import java.util.concurrent.Callable
 
@@ -46,7 +45,7 @@ class UserListFragmentTest {
 
     @get:Rule
     val rule = InjectedFragmentTestRule<UserListFragment> {
-        it.userListViewModel = userListViewModel
+        it.viewModelFactory = ViewModelUtil.createFor(userListViewModel)
         it.networkHelper = networkHelper
         it.dateTimeHelper = dateTimeHelper
     }
@@ -164,7 +163,7 @@ class UserListFragmentTest {
         }
 
         fun verifyHideProgressBar() {
-            onView(withId(R.id.progress_bar)).check(matches(CoreMatchers.not(isDisplayed())))
+            onView(withId(R.id.progress_bar)).check(matches(not(isDisplayed())))
         }
 
         fun verifyShowCorrectUserListDataSize() {
@@ -174,7 +173,7 @@ class UserListFragmentTest {
 
         fun verifyShowErrorMessage(error: String) {
             onView(withText(error))
-                .inRoot(RootMatchers.withDecorView(CoreMatchers.not(rule.activity.window.decorView)))
+                .inRoot(RootMatchers.withDecorView(not(rule.activity.window.decorView)))
                 .check(matches(isDisplayed()))
         }
 

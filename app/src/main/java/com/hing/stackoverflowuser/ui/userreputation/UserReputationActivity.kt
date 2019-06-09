@@ -1,10 +1,12 @@
-package com.hing.stackoverflowuser.presenter.userreputation
+package com.hing.stackoverflowuser.ui.userreputation
 
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,18 +22,20 @@ import kotlinx.android.synthetic.main.activity_user_reputation.user_reputation_l
 class UserReputationActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var userReputationViewModel: UserReputationViewModel
-    @Inject
     lateinit var networkHelper: NetworkHelper
     @Inject
     lateinit var dateTimeHelper: DateTimeHelper
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var userReputationAdapter: UserReputationAdapter
+    private lateinit var userReputationViewModel: UserReputationViewModel
     private var userId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
+        userReputationViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserReputationViewModel::class.java)
         setContentView(R.layout.activity_user_reputation)
 
         userId = intent?.extras?.getInt(EXTRA_USER_ID) ?: 0
@@ -96,7 +100,7 @@ class UserReputationActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupToolbar(){
+    private fun setupToolbar() {
         supportActionBar?.let {
             it.setDisplayHomeAsUpEnabled(true)
             it.setHomeButtonEnabled(true)

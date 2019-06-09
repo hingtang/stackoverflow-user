@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userlist
+package com.hing.stackoverflowuser.ui.userlist
 
 import android.annotation.SuppressLint
 import android.util.Log

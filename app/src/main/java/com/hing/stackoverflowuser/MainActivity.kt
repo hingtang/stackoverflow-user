@@ -3,7 +3,7 @@ package com.hing.stackoverflowuser
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.hing.stackoverflowuser.presenter.userlist.UserListFragment
+import com.hing.stackoverflowuser.ui.userlist.UserListFragment
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector

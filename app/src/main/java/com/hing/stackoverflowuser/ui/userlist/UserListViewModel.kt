@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userlist
+package com.hing.stackoverflowuser.ui.userlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +9,8 @@ import com.hing.stackoverflowuser.di.MainScheduler
 import com.hing.stackoverflowuser.domain.BookmarkUserUseCase
 import com.hing.stackoverflowuser.domain.GetUserListUseCase
 import com.hing.stackoverflowuser.domain.LoadBookmarkedUserUseCase
-import com.hing.stackoverflowuser.presenter.base.BaseViewModel
+import com.hing.stackoverflowuser.testing.OpenForTesting
+import com.hing.stackoverflowuser.ui.base.BaseViewModel
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -19,37 +20,31 @@ import javax.inject.Inject
 /**
  * Created by HingTang on 2019-05-23.
  */
-abstract class UserListViewModel : BaseViewModel() {
-    abstract val userList: LiveData<List<User>>
-
-    abstract fun loadUserList(
-        page: Int,
-        pageSize: Int = 20,
-        site: String = "stackoverflow",
-        isBookmarkSelected: Boolean
-    )
-
-    abstract fun loadBookmarkList()
-    abstract fun bookmarkUser(user: User)
-    abstract fun getCurrentPage(): Int
-}
-
-class UserListViewModelImpl @Inject constructor(
+@OpenForTesting
+class UserListViewModel @Inject constructor(
     private val getUserListUseCase: GetUserListUseCase,
     private val loadBookmarkedUserUseCase: LoadBookmarkedUserUseCase,
     private val bookmarkUserUseCase: BookmarkUserUseCase,
     @MainScheduler private val mainScheduler: Scheduler,
     @IOScheduler private val ioScheduler: Scheduler
-) : UserListViewModel() {
+) : BaseViewModel() {
     override val disposables = CompositeDisposable()
     override val errorMessage = MutableLiveData<String>()
     override val isLoading = MutableLiveData<Boolean>()
-    override val userList = MutableLiveData<List<User>>()
+
+    private val _userList = MutableLiveData<List<User>>()
+    val userList: LiveData<List<User>>
+        get() = _userList
 
     private var currentPage: Int = 1
-    override fun getCurrentPage() = currentPage
+    fun getCurrentPage() = currentPage
 
-    override fun loadUserList(page: Int, pageSize: Int, site: String, isBookmarkSelected: Boolean) {
+    fun loadUserList(
+        page: Int,
+        pageSize: Int = 20,
+        site: String = "stackoverflow",
+        isBookmarkSelected: Boolean
+    ) {
         if (isBookmarkSelected) {
             loadBookmarkList()
         } else {
@@ -57,7 +52,7 @@ class UserListViewModelImpl @Inject constructor(
         }
     }
 
-    override fun loadBookmarkList() {
+    fun loadBookmarkList() {
         loadBookmarkedUserUseCase.execute()
             .map { userList ->
                 userList.filter { user -> user.isBookmark }
@@ -69,7 +64,7 @@ class UserListViewModelImpl @Inject constructor(
             }
             .subscribe({
                 currentPage = 0
-                userList.value = it
+                _userList.value = it
                 isLoading.value = false
             }, {
                 errorMessage.value = "${it.message}"
@@ -77,7 +72,7 @@ class UserListViewModelImpl @Inject constructor(
             }).let { disposables.add(it) }
     }
 
-    override fun bookmarkUser(user: User) {
+    fun bookmarkUser(user: User) {
         bookmarkUserUseCase.execute(user)
             .subscribeOn(ioScheduler)
             .observeOn(mainScheduler)
@@ -102,7 +97,7 @@ class UserListViewModelImpl @Inject constructor(
             }
             .subscribe({
                 currentPage = page
-                userList.value = it
+                _userList.value = it
                 isLoading.value = false
             }, {
                 errorMessage.value = "${it.message}"

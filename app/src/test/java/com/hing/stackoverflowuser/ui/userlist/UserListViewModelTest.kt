@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userlist
+package com.hing.stackoverflowuser.ui.userlist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.hing.stackoverflowuser.data.User
@@ -22,7 +22,7 @@ import org.junit.Test
 /**
  * Created by HingTang on 2019-05-23.
  */
-class UserListViewModelImplTest {
+class UserListViewModelTest {
 
     private lateinit var getUserListUseCase: GetUserListUseCase
     private lateinit var loadBookmarkedUserUseCase: LoadBookmarkedUserUseCase
@@ -37,7 +37,7 @@ class UserListViewModelImplTest {
         getUserListUseCase = mock()
         loadBookmarkedUserUseCase = mock()
         bookmarkUserUseCase = mock()
-        viewModel = UserListViewModelImpl(
+        viewModel = UserListViewModel(
             getUserListUseCase,
             loadBookmarkedUserUseCase,
             bookmarkUserUseCase,

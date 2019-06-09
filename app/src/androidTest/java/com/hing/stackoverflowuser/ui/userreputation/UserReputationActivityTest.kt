@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userreputation
+package com.hing.stackoverflowuser.ui.userreputation
 
 import androidx.lifecycle.MutableLiveData
 import androidx.test.espresso.Espresso.onView
@@ -11,6 +11,7 @@ import com.hing.stackoverflowuser.data.UserReputation
 import com.hing.stackoverflowuser.rules.InjectedActivityTestRule
 import com.hing.stackoverflowuser.utils.DateTimeHelper
 import com.hing.stackoverflowuser.utils.NetworkHelper
+import com.hing.stackoverflowuser.utils.ViewModelUtil
 import com.hing.stackoverflowuser.utils.waitUntil
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
@@ -40,7 +41,7 @@ class UserReputationActivityTest {
 
     @get:Rule
     val rule = InjectedActivityTestRule(UserReputationActivity::class.java) {
-        it.userReputationViewModel = viewModel
+        it.viewModelFactory = ViewModelUtil.createFor(viewModel)
         it.networkHelper = networkHelper
         it.dateTimeHelper = dateTimeHelper
     }

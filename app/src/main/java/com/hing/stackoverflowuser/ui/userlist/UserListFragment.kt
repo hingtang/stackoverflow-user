@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userlist
+package com.hing.stackoverflowuser.ui.userlist
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,11 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,8 +19,8 @@ import com.hing.stackoverflowuser.R
 import com.hing.stackoverflowuser.data.User
 import com.hing.stackoverflowuser.listeners.OnLoadMoreListener
 import com.hing.stackoverflowuser.navigators.UserItemNavigator
-import com.hing.stackoverflowuser.presenter.userreputation.UserReputationActivity
-import com.hing.stackoverflowuser.presenter.userreputation.UserReputationActivity.Companion.EXTRA_USER_ID
+import com.hing.stackoverflowuser.ui.userreputation.UserReputationActivity
+import com.hing.stackoverflowuser.ui.userreputation.UserReputationActivity.Companion.EXTRA_USER_ID
 import com.hing.stackoverflowuser.utils.DateTimeHelper
 import com.hing.stackoverflowuser.utils.NetworkHelper
 import com.hing.stackoverflowuser.utils.showSnackbar
@@ -38,12 +39,13 @@ import kotlinx.android.synthetic.main.toolbar_user_list.tv_title as toolbarTitle
 class UserListFragment : Fragment(), UserItemNavigator, AdapterView.OnItemSelectedListener {
 
     @Inject
-    lateinit var userListViewModel: UserListViewModel
-    @Inject
     lateinit var networkHelper: NetworkHelper
     @Inject
     lateinit var dateTimeHelper: DateTimeHelper
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    private lateinit var userListViewModel: UserListViewModel
     private lateinit var userListAdapter: UserListAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,6 +55,7 @@ class UserListFragment : Fragment(), UserItemNavigator, AdapterView.OnItemSelect
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        userListViewModel = ViewModelProviders.of(this, viewModelFactory).get(UserListViewModel::class.java)
         setupToolbar()
         initSpinnerMenu()
         initRecyclerView()

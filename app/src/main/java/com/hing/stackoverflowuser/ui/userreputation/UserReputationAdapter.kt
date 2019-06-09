@@ -1,4 +1,4 @@
-package com.hing.stackoverflowuser.presenter.userreputation
+package com.hing.stackoverflowuser.ui.userreputation
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

@@ -1,10 +1,10 @@
 package com.hing.stackoverflowuser.di
 
-import com.hing.stackoverflowuser.di.scope.FragmentScope
-import com.hing.stackoverflowuser.presenter.userlist.UserListViewModel
-import com.hing.stackoverflowuser.presenter.userlist.UserListViewModelImpl
+import androidx.lifecycle.ViewModel
+import com.hing.stackoverflowuser.ui.userlist.UserListViewModel
 import dagger.Binds
 import dagger.Module
+import dagger.multibindings.IntoMap
 
 /**
  * Created by HingTang on 2019-05-23.
@@ -12,6 +12,7 @@ import dagger.Module
 @Module(includes = [CommonModule::class])
 interface UserListFragmentModule {
     @Binds
-    @FragmentScope
-    fun userListViewModel(userListViewModel: UserListViewModelImpl): UserListViewModel
+    @IntoMap
+    @ViewModelKey(UserListViewModel::class)
+    fun userListViewModel(userListViewModel: UserListViewModel): ViewModel
 }
